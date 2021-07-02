@@ -62,17 +62,17 @@
           <div class="d-flex justify-content-start">
             <label for="discount" class="label text-primary">Discount</label>
           </div>
-          <input type="number" nbInput fullWidth id="discount" placeholder="discount" min="0"  formControlName="discount"   />
-          <nb-alert class="msgError" *ngIf="formEdit.get('discount')?.errors?.min?.actual <formEdit.get('discount')?.errors?.min?.min ">product discount should be at least {{formEdit.get('discount')?.errors?.min?.min}} %</nb-alert>
+          <input type="number" nbInput fullWidth id="discount" placeholder="discount"   formControlName="discount"   />
+          <!-- <nb-alert class="msgError" *ngIf="formEdit.get('discount')?.errors?.min?.actual <formEdit.get('discount')?.errors?.min?.min ">product discount should be at least {{formEdit.get('discount')?.errors?.min?.min}} %</nb-alert> -->
         </div>
       </div>
-         <!--=============================== discount date =============================-->
+         <!--=============================== discount date ================formControlName="discountDate"=============-->
       <div class="col-12 col-md-6">
         <div class="form-group">
           <div >
             <label for="discount_date" class="label text-primary">Range Date of Discount</label>
           </div>
-          <input id="datepicker" nbInput fullWidth placeholder="Range Picker" [nbDatepicker]="rangepicker" [disabled]="formEdit.get('discount').value == 0" formControlName="discountDate">
+          <input id="datepicker" nbInput fullWidth placeholder="Range Picker" [nbDatepicker]="rangepicker" [disabled]="formEdit.get('discount').value == 0"  [defaultValue]='date' >
           <nb-rangepicker   (rangeChange)="handleDateChange($event)"    #rangepicker></nb-rangepicker>
         </div>
       </div>

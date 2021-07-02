@@ -4,7 +4,7 @@ import {
   NbGlobalPhysicalPosition,
   NbToastrService,
 } from "@nebular/theme";
-import { CustomValidator } from "./../../../common_validator/CustomValidator";
+
 import {
   FormBuilder,
   FormControl,
@@ -78,7 +78,7 @@ export class AddProductComponent implements OnInit {
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(60),
-          CustomValidator.checkSpaceInInput,
+
         ],
       ],
 
@@ -88,13 +88,13 @@ export class AddProductComponent implements OnInit {
           Validators.required,
           Validators.minLength(50),
           Validators.maxLength(200),
-          CustomValidator.checkSpaceInInput,
+
         ],
       ],
 
-      brand: ["", [Validators.required, CustomValidator.checkSpaceInInput]],
+      brand: ["", [Validators.required]],
 
-      size: ["", [Validators.required, CustomValidator.checkSpaceInInput]],
+      size: ["", [Validators.required]],
 
       weight: [
         "",
@@ -103,7 +103,7 @@ export class AddProductComponent implements OnInit {
 
       quantity: ["", [Validators.required, Validators.min(1)]],
 
-      sku: ["", [Validators.minLength(5), CustomValidator.checkSpaceInInput]],
+      sku: ["", [Validators.minLength(5)]],
     });
 
     /*================================ validation for product price ==============================*/
@@ -263,8 +263,8 @@ export class AddProductComponent implements OnInit {
     this.product.append("size", this.Size.value);
     this.product.append("quantity", this.Quantity.value);
     this.product.append("discount", this.Discount?.value || 0);
-    this.product.append("discountDate.start", this.date?.start);
-    this.product.append("discountDate.end", this.date?.end);
+    this.product.append("discountDate.start", this.date?.start||null);
+    this.product.append("discountDate.end", this.date?.end || null);
     this.product.append("productSpecifications", this.descriptionSpecifiction);
     this.product.append("subcategoryId", this.categories.get('subCategory').value);
     this.product.append("sku", this.Sku.value);
