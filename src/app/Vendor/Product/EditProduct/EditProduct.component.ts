@@ -61,7 +61,7 @@ export class EditProductComponent implements OnInit {
         title: "DiscountDate",
         valuePrepareFunction: (discount: {start: any, end:any}) => {
 
-          if (discount.start == undefined && discount.end|| discount.start == null && discount.end ==null ) {
+          if (!discount ) {
             return "No Discount";
           } else {
            let start= new Date(discount.start);
