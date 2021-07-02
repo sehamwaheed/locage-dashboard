@@ -41,6 +41,27 @@ getOrdersVendor(){
  })
 }
 
+
+getOrders(p:any){
+
+ return this.http.get(`${this.api}?page=${p}`).pipe(map((or:any)=>{
+    return or?.result?.docs.map((o:any)=>{
+
+        return {
+          _id:o._id,
+          product_name:o?.productId?.title,
+          price:o.price,
+          quantity:o.quantity,
+          statuse:o?.orderId?.status,
+
+
+        }
+
+
+    })
+ }))
+}
+
 getOrdersWithoutLoad(){
   return this.ordersLoad.asObservable();
 }

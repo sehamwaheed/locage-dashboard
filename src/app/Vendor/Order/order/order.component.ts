@@ -9,13 +9,30 @@ import { OrderService } from '../../../Services/order.service';
 })
 export class OrderComponent implements OnInit {
   orders:Order[]=[];
+  p:number ;
+  totalItems:number;
   constructor(private orderServic:OrderService) { }
 
   ngOnInit() {
+
 
     this.orderServic.getOrdersVendor();
     this.orderServic.getOrdersWithoutLoad().subscribe((data)=>{
       this.orders=[...data];
     })
+
+
+    this.gty(this.p);
+
   }
-}
+
+  gty(page: any){
+    this.orderServic.getOrders(page).subscribe((result: any) => {
+      console.log(result);
+
+      this.orders = result;
+       this.totalItems = result.result.totalDocs;
+      })
+    }
+
+  }
