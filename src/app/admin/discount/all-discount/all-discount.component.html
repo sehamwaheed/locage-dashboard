@@ -1,0 +1,41 @@
+<nb-card>
+  <nb-card-header>
+    Discount
+  </nb-card-header>
+  <nb-card-body>
+
+      <table class="table ">
+          <thead>
+            <tr>
+              <!-- <th>Discount ID</th> -->
+              <th>Discount Code</th>
+              <th>Discount Percent</th>
+              <th>Valid</th>
+              <th>Operation</th>
+              
+           </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of discounts | paginate: { itemsPerPage: 10, currentPage: p,totalItems:totalItems }; let i = index ">
+              <!-- <td scope="row">{{item!._id}}</td> -->
+              <td>{{ item!.code }}</td>
+              <td>{{ item!.discountPercent }}</td>
+              <td > <i class="fas fa-circle mr-2" [ngClass]="{'text-success': item!.valid ==true,' text-danger':item!.valid==false}"></i> <span class="text-black-50">{{item!.valid }}</span>  </td>
+              <td>
+                <button class="btn-info " (click)="editDiscount(item._id)">
+                  <i class="fa fa-edit" aria-hidden="true"></i>
+                </button>
+
+                <button class="btn-danger col-of-3" (click)="deleteDiscount(item._id)">
+                  <i class="fa fa-trash" aria-hidden="true"></i>
+                </button>
+              </td>
+            </tr>
+    
+          </tbody>
+        </table>
+         <pagination-controls (pageChange)="gty((p = $event))" style="position:sticky;"></pagination-controls> 
+        </nb-card-body>
+      </nb-card>
+  
+    

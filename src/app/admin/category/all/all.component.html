@@ -1,0 +1,121 @@
+<table *ngIf="categories" class="table table-hover table-light table-bordered">
+    <thead>
+      <tr>
+        <th>Photo</th>
+        <th>Category</th>
+        <th>Subcategories</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let category of categories">
+        <td>
+            <img src="{{ category!.photo }}" />
+        </td>
+        <td>{{ category!.name }}</td>
+        <td>
+            <ul *ngFor="let subcategory of category!.subcategories">
+                <li>{{ subcategory!.name }}</li>
+            </ul>
+        </td>
+        <td>
+          <button type="button" class="btn btn-link" (click)="openModal(category)" data-toggle="modal" data-target="#editModal">
+            Edit
+          </button> |
+          <button type="button" class="btn btn-link" (click)="openModal(category)" data-toggle="modal" data-target="#confirmationModal">
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+</table>
+
+<!-- -------------------------- deletion confirmation message --------------------------------- -->
+
+<!-- Modal -->
+<div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" #confirmationModal>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Delete Category</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete {{ (category)? category.name : "not found" }}?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="deleteCategory(confirmationModal, alert)" data-dismiss="modal">Delete</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ------------------------------------ alert on deletion ----------------------------------------- -->
+
+<div class="alert alert-success alert-dismissible fade hide" role="alert" #alert>
+  <strong>{{ (category)? category.name : "not found" }}</strong> has been deleted!
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+
+<!-- -------------------------------------- editing modal ------------------------------------------- -->
+
+<!-- Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" #confirmationModal>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Category</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #categoryForm="ngForm">
+          <label style="color: grey">Name</label>
+          <div class="input-group mb-3">
+              <input 
+              type="text" 
+              placeholder="Category name" 
+              class="form-control" 
+              name="name" 
+              ngModel 
+              #name
+              [value]="(category)? category.name : 'not found'" />
+          </div>
+
+          <br />
+          <label style="color: grey">Image</label>
+          <div class="input-group mb-3">
+              <div class="custom-file">
+              <input type="file" 
+              class="custom-file-input" 
+              id="inputGroupFile02" 
+              name="photo" 
+              ngModel 
+              (change)="onfileselected($event)" 
+              required
+              #inputImage />
+              <label class="custom-file-label" for="inputGroupFile02">
+                  {{ (inputImage.files[0])? inputImage.files[0].name : "Choose category image" }}
+              </label>
+              </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="onEditCategory(categoryForm)"  data-dismiss="modal">Save Changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+  

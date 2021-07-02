@@ -1,0 +1,126 @@
+<div class="row offset-1 col-11 mt-5">
+    <div class="card col-5">
+        <div class="card-body">
+            <h4 class="card-title" style="color: #3366ff;">Add Category</h4>
+            <br />
+            <br />
+            <form (submit)="onAddCategory(categoryForm, categorySpinner, additionConfirmation, errorMessage)" #categoryForm="ngForm">
+                <label style="color: grey">Name</label>
+                <div class="input-group mb-3">
+                    <input 
+                    type="text" 
+                    placeholder="Category name" 
+                    class="form-control" 
+                    name="name" 
+                    required 
+                    ngModel 
+                    #name/>
+                </div>
+
+                <br />
+                <label style="color: grey">Image</label>
+                <div class="input-group mb-3">
+                    <div class="custom-file">
+                    <input type="file" 
+                    class="custom-file-input" 
+                    id="inputGroupFile02" 
+                    name="photo" 
+                    ngModel 
+                    (change)="onfileselected($event)" 
+                    required
+                    #inputImage />
+                    <label class="custom-file-label" for="inputGroupFile02">
+                        {{ (inputImage.files[0])? inputImage.files[0].name : "Choose category image" }}
+                    </label>
+                    </div>
+                </div>
+
+                <br />
+                <div class="float-right">
+                    <div class="input-group mb-3">
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                </div>
+
+                <div class="spinner-border text-primary" role="status" style="display: none;" #categorySpinner>
+                    <span class="sr-only">Loading...</span>
+                </div>
+
+                <div role="status" style="display: none; color: green;" #additionConfirmation>
+                    <span>Category added! 
+                        <i class="fa fa-check-circle" aria-hidden="true"></i>
+                    </span>
+                </div>
+
+                <div role="status" style="display: none; color: red;" #errorMessage>
+                    <span>Name and image fields are required. </span>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+
+    <!-- --------------------------------------------------------------------------------------------------- -->
+
+    <div class="card offset-1 col-5">
+        <div class="card-body">
+            <h4 class="card-title" style="color: #3366ff;">Add Subcategory</h4>
+            <br />
+            <br />
+            <form (submit)="onAddSubcategory(subcategoryForm, subcategorySpinner, subAdditionConfirmation, suberrorMessage)" #subcategoryForm="ngForm">
+                <label style="color: grey">Name</label>
+                <div class="input-group mb-3">
+                    <input type="text" placeholder="Subcategory name" class="form-control" name="subname" required ngModel #subname />
+                </div>
+
+                <label style="color: grey">Category</label>
+                <div class="form-group">
+                    <select class="form-control" id="exampleFormControlSelect2" ngModel name="categoryId" required>
+                    <option *ngFor="let category of categories" [value]="category._id">{{ category.name }}</option>
+                    </select>
+                </div>
+        
+                <label style="color: grey">Image</label>
+                <div class="input-group mb-3">
+                    <div class="custom-file">
+                    <input type="file" 
+                    class="custom-file-input" 
+                    id="inputGroupFile03"
+                    name="photo" 
+                    ngModel 
+                    (change)="onSubcategoryImageSelect($event)" 
+                    required
+                    #inputImageSub />
+                    <label class="custom-file-label" for="inputGroupFile03">
+                        {{ (inputImageSub.files[0])? inputImageSub.files[0].name : "Choose subcategory image" }}
+                    </label>
+                    </div>
+                </div>
+
+                <br />
+                <div class="float-right">
+                    <div class="input-group mb-3">
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                </div>
+
+                <div class="spinner-border text-primary" role="status" style="display: none;" #subcategorySpinner>
+                    <span class="sr-only">Loading...</span>
+                </div>
+
+                <div role="status" style="display: none; color: green;" #subAdditionConfirmation>
+                    <span>Subcategory added! 
+                        <i class="fa fa-check-circle" aria-hidden="true"></i>
+                    </span>
+                </div>
+
+                <div role="status" style="display: none; color: red;" #suberrorMessage>
+                    <span>Name, category and image fields are required. </span>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+

@@ -1,0 +1,18 @@
+<table *ngIf="categoriesWithProductsCount" class="table table-hover table-light table-bordered">
+    <thead>
+      <tr>
+        <th>Photo</th>
+        <th>Category</th>
+        <th>Total products</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let category of categoriesWithProductsCount">
+        <td>
+            <img src="{{ category!._id.photo }}" />
+        </td>
+        <td>{{ category!._id.name }}</td>
+        <td>{{ category!.totalProducts }} </td>
+      </tr>
+    </tbody>
+  </table>

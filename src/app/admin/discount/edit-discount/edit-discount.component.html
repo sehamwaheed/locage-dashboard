@@ -1,0 +1,114 @@
+<nb-card class="col-12 col-lg-8 justfy-center">
+  <nb-card-header>
+    Edit discount
+  </nb-card-header>
+  <nb-card-body>
+      <form [formGroup]="discountForm">
+        <div class="form-group">
+          <label for="discountPercent" > Discount Percent  </label>
+          <input
+            id="discountPercent"
+            formControlName="discountPercent"
+            [class.is-invalid]="
+            discountPercent?.invalid && (discountPercent?.dirty || discountPercent?.touched)
+            "
+            [class.is-valid]="discountPercent?.touched && !discountPercent?.invalid"
+            type="number"
+            class="form-control"
+            [(ngModel)]="discount.discountPercent"
+          />
+          <small
+            *ngIf="discountPercent?.errors?.required && discountPercent?.touched"
+            class="text-danger"
+          >
+            "Discount Percent is required"
+          </small>
+         
+        </div>
+  
+        <div class="form-group">
+          <label for="code" >code</label>
+          <input
+            id="code"
+            formControlName="code"
+            [class.is-invalid]="
+            code?.invalid && (code?.dirty || code?.touched)
+            "
+            [class.is-valid]="code?.touched && !code?.invalid"
+            type="text"
+            class="form-control"
+            [(ngModel)]="discount.code"
+
+          />
+          <small
+            *ngIf="code?.errors?.required && code?.touched"
+            class="text-danger"
+          >
+            "code is required"
+          </small>
+  
+          <small
+            *ngIf="code?.errors?.minlength && code?.touched"
+            class="text-danger"
+          >
+            "code must be at least 6 characters"
+          </small>
+         
+        </div>
+        <div class="form-group">
+          <label for="valid" >Valid</label>
+          <div>
+            <input
+            id="true"
+            name="valid"
+            formControlName="valid"
+            type="radio"
+            [(ngModel)]="discount.valid" 
+            [value]="true"
+          />
+          <label for="true">True</label>
+          </div>
+          <div>
+            <input
+            id="false"
+            name="valid"
+            formControlName="valid"
+            type="radio"
+            [(ngModel)]="discount.valid" 
+            [value]="false"
+
+          />
+          <label for="false">False</label>
+          </div>
+           
+          <div *ngIf="valid?.touched && valid?.invalid" >
+            <small
+            *ngIf="valid?.errors?.required && valid?.touched"
+            class="text-danger"
+          >
+            "valid is required"
+          </small>
+        </div>
+         
+         
+        </div>
+       
+  
+        <div class="form-group" id="btnDiv">
+          <button
+            [disabled]="discountForm.invalid || buttonSubmit"
+            class="col-12 justify-center btn btn-success"
+            type="submit"
+            (click)="onSubmit(discountForm.value)"
+          >
+            Edit
+          </button>
+        </div>
+        <div>
+          <small *ngIf="invalidDis" class="text-danger">{{errorMsg}}</small>
+        </div>
+      </form>
+    </nb-card-body>
+
+  </nb-card>
+  

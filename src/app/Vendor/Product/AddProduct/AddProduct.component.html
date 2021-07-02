@@ -1,0 +1,329 @@
+
+<nb-card class="col-md-12 col-lg-12 col-xxxl-12">
+  <nb-card-body>
+    <nb-stepper orientation="horizontal" disableStepNavigation #step><!--* disableStepNavigation --->
+      <!--=============================== chooses Category =============================-->
+
+      <nb-step label={{list[0]}}  [stepControl]="categories">
+        <ng-template  #labelOne>chooses Category</ng-template>
+
+        <form [formGroup]="categories">
+          <div>
+            <div class="m-3 d-flex flex-column">
+               <div class="m-2 d-flex justify-content-start" >
+                  <nb-select-label class="text-primary"> Main Category</nb-select-label>
+               </div>
+               <div>
+                 <nb-select fullWidth selected="0" #main (selectedChange)="onMainCategorySelect(main.selected)"formControlName="mainCategory" >
+                   <nb-option value="{{item._id}}" *ngFor="let item of Categories; let i=index">{{item.name}}</nb-option>
+
+                 </nb-select>
+               </div>
+            </div>
+
+
+            <div class="m-3 d-flex flex-column" *ngIf="selectedMainCategory!=null">
+             <div class="m-2 d-flex justify-content-start"  >
+                <nb-select-label class="text-primary"> Sub Category</nb-select-label>
+             </div>
+             <div>
+               <!-- (selectedChange)=" Selectedsubcategory= sub.selected" -->
+               <nb-select fullWidth selected="1" #sub    formControlName="subCategory">
+                 <nb-option value="{{item._id}}" *ngFor="let item of subCategory; let i=index">{{item.name}}</nb-option>
+
+               </nb-select>
+             </div>
+          </div>
+
+          </div>
+        </form>
+
+       <div class="d-flex justify-content-center mt-2">
+        <button nbButton disabled nbStepperNext>prev</button>
+        <button nbButton nbStepperNext  >next</button>
+        </div>
+      </nb-step>
+
+      <!--=============================== product Inforamtion =============================-->
+      <nb-step [label]="list[1] "  [stepControl]="product_Inforamtion" ><!--* [stepControl]="product_Inforamtion" --->
+        <ng-template #labelTwo>Product Info</ng-template>
+        <form action="post" [formGroup]="product_Inforamtion">
+            <div class="row">
+               <div class="col-12 col-md-6">
+                <div class="form-group">
+                  <div class="d-flex justify-content-start">
+                    <label for="productName"  class="label text-primary">Product name* </label>
+                  </div>
+                  <input type="text" nbInput fullWidth id="productName" placeholder="Product Name"  formControlName="productName" >
+                  <!--* error Message --->
+                    <div  *ngIf="ProductName.invalid && (ProductName.dirty || ProductName.touched)">
+                      <nb-alert  class="msgError" *ngIf="ProductName.errors.required"> *Please enter product name !</nb-alert>
+                      <nb-alert  class="msgError" *ngIf="ProductName.errors.inputIsSpace"> *Invalid ProductName !</nb-alert>
+                      <nb-alert *ngIf="ProductName.errors.minlength" class="msgError" >product name should be at least{{ProductName.errors.minlength.requiredLength}} Character </nb-alert>
+                      <nb-alert *ngIf="ProductName.errors.maxlength" class="msgError">
+                        product name should be at most {{ProductName.errors.maxlength.requiredLength}} Character
+                      </nb-alert>
+
+                     </div>
+                  <!--* error Message --->
+                </div>
+               </div>
+
+               <div class="col-12 col-md-6">
+                <div class="form-group">
+                  <div class="d-flex justify-content-start">
+                    <label for="brand" class="label text-primary">Brand*</label>
+                  </div>
+                  <input type="text" nbInput fullWidth id="brand" placeholder="Brand" formControlName="brand" />
+              <!--* error Message --->
+                <div  *ngIf="Brand.invalid && (Brand.dirty || Brand.touched)">
+                <nb-alert outline="danger" class="msgError" *ngIf="Brand.errors.required"> *Please enter product brand !</nb-alert>
+                <nb-alert outline="danger" class="msgError" *ngIf="Brand.errors.inputIsSpace"> *Invalid Brand  !</nb-alert>
+               </div>
+              <!--* error Message end --->
+                </div>
+
+              </div>
+            </div>
+
+
+          <div class="form-group">
+            <div class="d-flex justify-content-start">
+              <label for="productDescription" class="label text-primary">Product Description*</label>
+            </div>
+            <textarea rows="5" nbInput fullWidth placeholder="Product Description" formControlName="productDescription"></textarea>
+          <!--* error Message --->
+             <div  *ngIf="ProductDescription.invalid && (ProductDescription.dirty || ProductDescription.touched)">
+            <nb-alert outline="danger" class="msgError" *ngIf="ProductDescription.errors.required"> *Please enter product description !</nb-alert>
+            <nb-alert outline="danger" class="msgError" *ngIf="ProductDescription.errors.minlength"> *product description at least 50 character !</nb-alert>
+            <nb-alert outline="danger" class="msgError" *ngIf="ProductDescription.errors.maxlength"> *product description more than 300!</nb-alert>
+            <nb-alert outline="danger" class="msgError" *ngIf="ProductDescription.errors.inputIsSpace"> *Invalid ProductDescription !</nb-alert>
+             </div>
+         <!--* error Message --->
+          </div>
+
+
+          <!-- ----------------------------------------------------------------------- -->
+          <div class="row">
+
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <div class="d-flex justify-content-start">
+                  <label for="quantity" class="label text-primary">Quantity</label>
+                </div>
+                <input type="number" nbInput fullWidth id="quantity" min="1" placeholder="quantity" formControlName="quantity" />
+                  <!--* error Message --->
+                   <div  *ngIf="Quantity.invalid && (Quantity.dirty || Quantity.touched)">
+                         <nb-alert outline="danger" class="msgError" *ngIf="Quantity.errors.required"> *Please enter the Number of Quntity !</nb-alert>
+                         <nb-alert outline="danger" class="msgError" *ngIf="Quantity.errors.min"> *Invalid Quantity at least 1  !</nb-alert>
+                     </div>
+                  <!--* error Message end --->
+              </div>
+
+            </div>
+
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <div class="d-flex justify-content-start">
+                  <label for="color" class="label text-primary">Color</label>
+                </div>
+                     <div class=" d-flex" >
+
+                      <div class=" d-flex" >
+                        <div class="colorProduct" *ngFor="let item of Colors; let i=index"  [style.backgroundColor]="item" >
+                          <span class="badge badge-pill small-span" (click)="removeColor(i)"><i class="fas fa-times"></i></span>
+
+                        </div>
+                       </div>
+                          <div class="d-fex justify-content-center  align-content-center  pt-2 "id="colorbtn" >
+
+                            <i class="fas fa-fill-drip" (click)="openWindowForm(colorForm)"  ></i>
+
+                          </div>
+
+                     </div>
+
+              </div>
+            </div>
+
+          </div>
+
+          <!-- ----------------------------------------------------------------------- -->
+
+            <div class="row">
+                 <div class="col-12 col-md-6">
+                  <div class="form-group">
+                    <div class="d-flex justify-content-start">
+                      <label for="size" class="label text-primary">Size</label>
+                    </div>
+                    <input type="text" nbInput fullWidth id="size" placeholder="Size" formControlName="size" />
+                     <!--* error Message --->
+                      <div  *ngIf="Size.invalid && (Size.dirty || Size.touched)">
+                             <nb-alert outline="danger" class="msgError" *ngIf="Size.errors.required"> *Please enter product Size !</nb-alert>
+                             <nb-alert outline="danger" class="msgError" *ngIf="Size.errors.inputIsSpace"> *Invalid Size  !</nb-alert>
+                       </div>
+                     <!--* error Message end --->
+                  </div>
+
+                 </div>
+
+                 <div class="col-12 col-md-6">
+                  <div class="form-group">
+                    <div class="d-flex justify-content-start">
+                      <label for="weight" class="label text-primary">Weight</label>
+                    </div>
+                    <input type="number" nbInput fullWidth id="weight" min="10" placeholder="Weight gm" formControlName="weight" />
+                       <!--* error Message --->
+                         <div  *ngIf="Weight.invalid && (Weight.dirty || Weight.touched)">
+                           <nb-alert outline="danger" class="msgError" *ngIf="Weight.errors.required"> *Please enter product Weight !</nb-alert>
+                           <nb-alert outline="danger" class="msgError" *ngIf="Weight.errors.min"> *product Weight at least 10 Gm !</nb-alert>
+
+                          </div>
+                        <!--* error Message end --->
+                  </div>
+
+                 </div>
+            </div>
+
+
+
+
+          <div class="form-group">
+            <div class="d-flex justify-content-start">
+              <label for="Sku" class="label text-primary">Sku</label>
+            </div>
+            <input type="text" nbInput fullWidth id="sku" placeholder="Sku" formControlName="sku" />
+             <!--* error Message --->
+               <div  *ngIf="Sku.invalid && (Sku.dirty || Sku.touched)">
+                <nb-alert outline="danger" class="msgError" *ngIf="Sku.errors.inputIsSpace"> *Invalid Serial Number !</nb-alert>
+                </div>
+             <!--* error Message end --->
+          </div>
+
+        </form>
+        <div class="d-flex justify-content-center mt-2">
+        <button nbButton nbStepperPrevious>prev</button>
+        <button nbButton nbStepperNext >next</button>
+        </div>
+      </nb-step>
+      <!--=============================== More product information =============================-->
+
+      <nb-step [label]="list[2]" id="editor" >
+        <label for="proudactSpecification" class="label text-primary">Product Specification</label>
+       <div>
+        <ckeditor id="proudactSpecification" [config]="{ extraPlugins: 'divarea', height: '320' }"  [(ngModel)]="descriptionSpecifiction"></ckeditor>
+
+       </div>
+
+       <div class="d-flex justify-content-center mt-3">
+        <button nbButton nbStepperPrevious>prev</button>
+        <button nbButton nbStepperNext>next</button>
+       </div>
+      </nb-step>
+      <!--=============================== product Prices =============================-->
+
+      <nb-step [label]="list[3]" [stepControl]="product_price">
+        <form action="post" [formGroup]="product_price" >
+          <div class="form-group">
+            <div class="d-flex justify-content-start">
+              <label for="price" class="label text-primary">Price*</label>
+            </div>
+            <input type="number" nbInput fullWidth id="price" placeholder="Price" min="0" formControlName="price" />
+                    <!--* error Message --->
+                    <div  *ngIf="Price.invalid && (Price.dirty || Price.touched)">
+                      <nb-alert outline="danger" class="msgError" *ngIf="Price.errors.required"> *Please enter the product price !</nb-alert>
+                      <nb-alert outline="danger" class="msgError" *ngIf="Price.errors.min"> **product price at least 1 EL !</nb-alert>
+                      </div>
+                   <!--* error Message end --->
+          </div>
+
+          <div class="row">
+
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <div class="d-flex justify-content-start">
+                  <label for="discount" class="label text-primary">Discount</label>
+                </div>
+                <input type="number" nbInput fullWidth id="discount" placeholder="discount" min="0"  #dis formControlName="discount" />
+                       <!--* error Message --->
+                       <div  *ngIf="Discount.invalid && (Discount.dirty || Discount.touched)">
+                           <nb-alert outline="danger" class="msgError" *ngIf="Discount.errors.min"> **product discount at least 2% !</nb-alert>
+                        </div>
+                     <!--* error Message end --->
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <div class="d-flex justify-content-start">
+                  <label for="datepicker" class="label text-primary">Range Date of Discount</label>
+                </div>
+                <input id="datepicker" nbInput fullWidth placeholder="Range Picker" [nbDatepicker]="rangepicker" [disabled]="dis.value == 0" >
+                <nb-rangepicker   (rangeChange)="handleDateChange($event)"  [min]="min" [max]="max" #rangepicker></nb-rangepicker>
+
+              </div>
+            </div>
+
+          </div>
+        </form>
+
+
+        <div class="d-flex justify-content-center mt-3">
+          <button nbButton nbStepperPrevious>prev</button>
+          <button nbButton nbStepperNext >next</button>
+         </div>
+      </nb-step>
+      <!--===============================Images =============================-->
+
+      <nb-step [label]="list[4]" [stepControl]="images.length ==0" ><!--* [stepControl]="images.length ==0" --->
+          <div class="d-flex  flex-wrap">
+            <div class=" image shadow " *ngFor="let item of images; let i=index" [style.backgroundImage]="'url('+item+')'" >
+              <span class="badge badge-pill badge-dark "(click)="deleteImage(i)" ><i class="fas fa-times"></i></span>
+
+            </div>
+
+            <button nbButton class="addImage" (click)="upload.click()">
+                 <i class="fas fa-plus"></i>
+                 <input type="file" hidden #upload  (change)="previewImge($event)" multiple />
+            </button>
+          </div>
+
+        <div class="d-flex justify-content-center mt-3">
+          <button nbButton nbStepperPrevious>prev</button>
+          <button nbButton nbStepperNext >next</button>
+         </div>
+      </nb-step>
+
+      <nb-step  [hidden]="true" label="Finish">
+        <div class="step-container">
+          <h3>Wizard completed!</h3>
+          <button nbButton (click)="createProduct();step.reset() ">Create</button>
+        </div>
+      </nb-step>
+
+    </nb-stepper>
+  </nb-card-body>
+</nb-card>
+
+<!-------------------------------- templets of color ------------------------------>
+
+
+<ng-template #colorForm>
+  <div class="d-flex flex-column">
+    <div class="d-flex justify-content-between">
+      <label for=""> Color</label>
+      <input type="color" id="colorpacker" [(ngModel)]="selectedColor" />
+    </div>
+  </div>
+
+  <div class="d-flex flex-wrap pt-5" id="customColor">
+
+    <button nbButton *ngFor="let item of customColor" class="colorProduct" (click)="changeColorHandeler(item)"
+     [style.backgroundColor]="item"></button>
+  </div>
+  <div class="d-flex justify-content-center mt-5">
+    <button nbButton status="warning" [disabled]="selectedColor==null" (click)="addColor()" > Add </button>
+    <button nbButton status="danger" [disabled]="Colors.length == 0" (click)="deleteColor()" style="margin-left: 3ex !important;"> Clear </button>
+  </div>
+</ng-template>
+

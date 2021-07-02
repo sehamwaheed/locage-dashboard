@@ -1,0 +1,113 @@
+<table *ngIf="subcategories" class="table table-hover table-light table-bordered">
+    <thead>
+      <tr>
+        <th>Photo</th>
+        <th>Subcategory</th>
+        <th>Category</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let subcategory of subcategories">
+        <td>
+            <img src="{{ subcategory!.photo }}" />
+        </td>
+        <td>{{ subcategory!.name }}</td>
+        <td>
+            {{ subcategory!.categoryId.name }}
+        </td>
+        <td>
+          <button type="button" class="btn btn-link" (click)="openModal(subcategory)" data-toggle="modal" data-target="#editModal">
+            Edit
+          </button> |
+          <button type="button" class="btn btn-link" (click)="openModal(subcategory)" data-toggle="modal" data-target="#confirmationModal">
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+</table>
+
+<!-- -------------------------- deletion confirmation message --------------------------------- -->
+
+<!-- Modal -->
+<div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" #confirmationModal>
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Delete Subcategory</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to delete {{ (subcategory)? subcategory.name : "not found" }}?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" (click)="deleteSubcategory(confirmationModal)" data-dismiss="modal">Delete</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- -------------------------------------- editing modal ------------------------------------------- -->
+
+<!-- Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" #confirmationModal>
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Edit Subcategory</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form #subcategoryForm="ngForm">
+            <label style="color: grey">Name</label>
+            <div class="input-group mb-3">
+                <input 
+                type="text" 
+                placeholder="Subcategory name" 
+                class="form-control" 
+                name="name" 
+                ngModel 
+                #name
+                [value]="(subcategory)? subcategory.name : 'not found'" />
+            </div>
+
+            <br />
+            <label style="color: grey">Category</label>
+                <div class="form-group">
+                    <select class="form-control" id="exampleFormControlSelect2" ngModel name="categoryId">
+                    <option *ngFor="let category of categories" [value]="category._id">{{ category.name }}</option>
+                    </select>
+                </div>
+  
+            <br />
+            <label style="color: grey">Image</label>
+            <div class="input-group mb-3">
+                <div class="custom-file">
+                <input type="file" 
+                class="custom-file-input" 
+                id="inputGroupFile02" 
+                name="photo" 
+                ngModel 
+                (change)="onfileselected($event)" 
+                required
+                #inputImage />
+                <label class="custom-file-label" for="inputGroupFile02">
+                    {{ (inputImage.files[0])? inputImage.files[0].name : "Choose category image" }}
+                </label>
+                </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" (click)="onEditSubcategory(subcategoryForm)"  data-dismiss="modal">Save Changes</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>

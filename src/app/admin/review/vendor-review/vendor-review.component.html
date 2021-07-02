@@ -1,0 +1,59 @@
+<nb-card *ngIf="vendor">
+  <nb-card-header> Vendor {{ vendor!.name }} reviews </nb-card-header>
+
+  <nb-card-body *ngFor="let item of product; let i = index">
+    <table *ngIf="item.product" class="table">
+      <caption style="caption-side: top">
+        Product
+        {{
+          item!.product.title
+        }}
+        review
+      </caption>
+      <thead>
+        <tr>
+          <th>Rate</th>
+          <th>Comment</th>
+          <th>createAt</th>
+          <th>User Name</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="item.review">
+        <tr
+          *ngFor="
+            let j of item.review.docs
+              | paginate
+                : {
+                    itemsPerPage: 10,
+                    currentPage: p,
+                    totalItems: item.review.totalDocs
+                  };
+            let i = index
+          "
+        >
+          <td>{{ j!.rate }}</td>
+          <td>{{ j!.comment }}</td>
+          <td>{{ j!.createAt | date: "short" }}</td>
+          <td>{{ j!.userId.firstName }} {{ j!.userId.lastName }}</td>
+        </tr>
+        <tr>
+          <pagination-controls
+            *ngIf="item.review.totalPages > 1"
+            (pageChange)="gty((p = $event))"
+            style="position: sticky"
+          >
+          </pagination-controls>
+        </tr>
+      </tbody>
+      <tbody *ngIf="item.review.totalDocs == 0">
+        <tr>
+          <td colspan="4">No Reviews Found</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="!item.product">
+      <h3>No product found</h3>
+    </div>
+  </nb-card-body>
+</nb-card>

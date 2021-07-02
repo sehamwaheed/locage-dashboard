@@ -1,0 +1,215 @@
+<nb-card>
+
+  <nb-card-header>
+   <div class="d-flex justify-content-between">
+     <div class="text-primary " style="font-size: large;">
+      Edit Product
+     </div>
+     <button  nbButton status="info" ghost (click)="update()"><!--* (click)="updated()" --->
+        Update
+    </button>
+   </div>
+  </nb-card-header>
+  <nb-card-body>
+    <!--=============================== product Name =============================-->
+
+    <form   [formGroup]="formEdit">
+    <div class="form-group">
+      <div class="d-flex justify-content-start ">
+        <label for="productName" class="label text-primary">Product Name*</label>
+      </div>
+      <input type="text" nbInput fullWidth id="productName" placeholder="Product Name"   formControlName="title" >
+
+         <nb-alert  class="msgError" *ngIf="formEdit.get('title')?.errors?.required"> *Please enter product name !</nb-alert>
+          <nb-alert class="msgError" *ngIf="formEdit.get('title')?.errors?.minlength?.actualLength <formEdit.get('title')?.errors?.minlength?.requiredLength ">product name should be at least {{formEdit.get('title')?.errors?.minlength?.requiredLength}} Character</nb-alert>
+          <nb-alert class="msgError" *ngIf="formEdit.get('title')?.errors?.maxlength?.actualLength >formEdit.get('title')?.errors?.maxlength?.requiredLength ">product name should be at most {{formEdit.get('title')?.errors?.maxlength?.requiredLength}} Character</nb-alert>
+    </div>
+
+    <!--=============================== product description =============================-->
+
+
+
+    <div class="form-group">
+      <div class="d-flex justify-content-start">
+        <label for="productDescription" class="label text-primary">Product Description*</label>
+      </div>
+      <textarea rows="5" nbInput fullWidth placeholder="Product Description" formControlName="description"  ></textarea>
+      <!-- {{formEdit.get('description').errors | json}} -->
+      <nb-alert  class="msgError" *ngIf="formEdit.get('description')?.errors?.required"> *Please enter product name !</nb-alert>
+       <nb-alert class="msgError" *ngIf="formEdit.get('description')?.errors?.minlength?.actualLength <formEdit.get('description')?.errors?.minlength?.requiredLength ">product name should be at least {{formEdit.get('description')?.errors?.minlength?.requiredLength}} Character</nb-alert>
+       <nb-alert class="msgError" *ngIf="formEdit.get('description')?.errors?.maxlength?.actualLength >formEdit.get('description')?.errors?.maxlength?.requiredLength ">product name should be at most {{formEdit.get('description')?.errors?.maxlength?.requiredLength}} Character</nb-alert>
+    </div>
+
+    <!--=============================== product price =============================-->
+
+    <div class="form-group">
+      <div class="d-flex justify-content-start">
+        <label for="price" class="label text-primary">Price*</label>
+      </div>
+      <input type="number" nbInput fullWidth id="price" placeholder="Price" min="0"  formControlName="price" />
+      <!-- {{formEdit.get('price').errors | json}} -->
+      <nb-alert  class="msgError" *ngIf="formEdit.get('price')?.errors?.required"> *Please enter product price !</nb-alert>
+       <nb-alert class="msgError" *ngIf="formEdit.get('price')?.errors?.min?.actual <formEdit.get('price')?.errors?.min?.min ">product price should be at least {{formEdit.get('price')?.errors?.min?.min}} $</nb-alert>
+
+    </div>
+    <!--=============================== discount -- discountDate =============================-->
+
+
+    <div class="row">
+
+      <div class="col-12 col-md-6">
+        <div class="form-group">
+          <div class="d-flex justify-content-start">
+            <label for="discount" class="label text-primary">Discount</label>
+          </div>
+          <input type="number" nbInput fullWidth id="discount" placeholder="discount" min="0"  formControlName="discount"   />
+          <nb-alert class="msgError" *ngIf="formEdit.get('discount')?.errors?.min?.actual <formEdit.get('discount')?.errors?.min?.min ">product discount should be at least {{formEdit.get('discount')?.errors?.min?.min}} %</nb-alert>
+        </div>
+      </div>
+         <!--=============================== discount date =============================-->
+      <div class="col-12 col-md-6">
+        <div class="form-group">
+          <div >
+            <label for="discount_date" class="label text-primary">Range Date of Discount</label>
+          </div>
+          <input id="datepicker" nbInput fullWidth placeholder="Range Picker" [nbDatepicker]="rangepicker" [disabled]="formEdit.get('discount').value == 0" formControlName="discountDate">
+          <nb-rangepicker   (rangeChange)="handleDateChange($event)"    #rangepicker></nb-rangepicker>
+        </div>
+      </div>
+    </div>
+       <!--=============================== product brand =============================-->
+
+
+    <div class="row">
+
+      <div class="col-12 col-md-6">
+        <div class="form-group">
+          <div class="d-flex justify-content-start">
+            <label for="brand" class="label text-primary">Brand</label>
+          </div>
+          <input type="text" nbInput fullWidth id="brand" placeholder="Brand" formControlName="brand" />
+          <nb-alert  class="msgError" *ngIf="formEdit.get('brand')?.errors?.required"> *Please enter product brand !</nb-alert>
+        </div>
+
+      </div>
+       <!--=============================== product color =============================-->
+
+
+      <div class="col-12 col-md-6">
+        <div class="form-group">
+          <div class="d-flex justify-content-start">
+            <label for="color" class="label text-primary">Color</label>
+          </div>
+               <div class=" d-flex" >
+                <div class=" d-flex" >
+
+                  <div class="colorProduct" *ngFor="let color of product?.color; let i=index" [style.backgroundColor]="color" >
+                    <span class="badge badge-pill small-span" (click)="deletColor(i)"  ><i class="fas fa-times"></i></span>
+
+                  </div>
+                 </div>
+                    <div class="d-fex justify-content-center  align-content-center  pt-2 "id="colorbtn" >
+                        <i class="fas fa-fill-drip" (click)="openWindowForm(colorForm)"  ></i>
+                    </div>
+               </div>
+        </div>
+      </div>
+    </div>
+    <!--=============================== product size =============================-->
+
+    <div class="row">
+      <div class="col-12 col-md-6">
+      <div class="form-group">
+        <div class="d-flex justify-content-start">
+          <label for="size" class="label text-primary">Size</label>
+        </div>
+        <input type="text" nbInput fullWidth id="size" placeholder="Size"  formControlName="size" />
+        <nb-alert  class="msgError" *ngIf="formEdit.get('size')?.errors?.required"> *Please enter product size !</nb-alert>
+      </div>
+    </div>
+    <!--=============================== product weight =============================-->
+
+
+    <div class="col-12 col-md-6">
+    <div class="form-group">
+      <div class="d-flex justify-content-start">
+        <label for="weight" class="label text-primary">Weight*</label>
+      </div>
+      <input type="number" nbInput fullWidth id="weight" min="10" placeholder="Weight gm" formControlName="Weight" />
+      <nb-alert  class="msgError" *ngIf="formEdit.get('Weight')?.errors?.required"> *Please enter product Weight !</nb-alert>
+      <nb-alert class="msgError" *ngIf="formEdit.get('Weight')?.errors?.min?.actual <formEdit.get('Weight')?.errors?.min?.min ">product Weight should be at least {{formEdit.get('Weight')?.errors?.min?.min}} Gm</nb-alert>
+      <nb-alert class="msgError" *ngIf="formEdit.get('Weight')?.errors?.max?.actual >formEdit.get('Weight')?.errors?.max?.max ">product Weight should be at most {{formEdit.get('Weight')?.errors?.max?.max}} Gm</nb-alert>
+      </div>
+   </div>
+ </div>
+ <!--=============================== product quantity =============================-->
+
+ <div class="row">
+  <div class="col-12 col-md-6">
+    <div class="form-group">
+      <div class="d-flex justify-content-start">
+        <label for="quantity" class="label text-primary">Quantity*</label>
+      </div>
+      <input type="number" nbInput fullWidth id="quantity" min="1" placeholder="quantity"  formControlName="quantity"   />
+      <nb-alert  class="msgError" *ngIf="formEdit.get('quantity')?.errors?.required"> *Please enter product quantity !</nb-alert>
+      <nb-alert class="msgError" *ngIf="formEdit.get('quantity')?.errors?.min?.actual <formEdit.get('quantity')?.errors?.min?.min ">product quantity should be at least {{formEdit.get('quantity')?.errors?.min?.min}} </nb-alert>
+    </div>
+  </div>
+
+<!--=============================== product sku =============================-->
+
+  <div class="col-12 col-md-6">
+    <div class="form-group">
+      <div class="d-flex justify-content-start">
+        <label for="Sku" class="label text-primary">Sku</label>
+      </div>
+      <input type="text" nbInput fullWidth id="sku" placeholder="Sku" formControlName="sku" />
+      <nb-alert class="msgError" *ngIf="formEdit.get('sku')?.errors?.minlength?.actualLength <formEdit.get('sku')?.errors?.minlength?.requiredLength ">product sku should be at least {{formEdit.get('sku')?.errors?.minlength?.requiredLength}} Character</nb-alert>
+      </div>
+    </div>
+ </div>
+
+   <!--=============================== product Specifictions =============================-->
+
+   <div>
+    <label for="proudactSpecification" class="label text-primary">Product Specification*</label>
+    <div>
+     <ckeditor id="proudactSpecification" [config]="{ extraPlugins: 'divarea', height: '320' }"  formControlName="productSpecifications" ></ckeditor>
+     <nb-alert  class="msgError" *ngIf="formEdit.get('productSpecifications')?.errors?.required"> *Please enter productSpecifications !</nb-alert>
+    </div>
+   </div>
+
+        <!--* btn --->
+        <div class="d-flex justify-content-center mt-5">
+          <button  nbButton outline status="info" (click)="update()" >
+            Update
+          </button>
+
+        </div>
+
+
+    </form>
+  </nb-card-body>
+
+</nb-card>
+  <!-------------------------------- templets of color ------------------------------>
+
+
+  <ng-template #colorForm>
+    <div class="d-flex flex-column">
+      <div class="d-flex justify-content-between">
+        <label for=""> Color</label>
+        <input type="color" id="colorpacker" [(ngModel)]="selectedColor" />
+      </div>
+    </div>
+
+    <div class="d-flex flex-wrap pt-5" id="customColors">
+
+      <button nbButton *ngFor="let item of customColor" class="colorProduct " (click)="changeColorHandeler(item)"
+      [style.backgroundColor]="item"></button>
+    </div>
+    <div class="d-flex justify-content-center mt-5">
+      <button nbButton status="warning"  (click)="addColor()" > Add </button>
+      <button nbButton status="danger"  (click)="clearAll()" style="margin-left: 3ex !important;"> Clear </button>
+    </div>
+  </ng-template>
