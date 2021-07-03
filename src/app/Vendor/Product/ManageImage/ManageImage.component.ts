@@ -13,6 +13,8 @@ export class ManageImageComponent implements OnInit {
   uploadImg:FormControl
   //* My Variables
   allProducts:Product[]=[];
+  p:number ;
+  totalItems:number;
   constructor(private productservices:ProductService) {
 
 
@@ -28,6 +30,7 @@ export class ManageImageComponent implements OnInit {
     this.productservices.getProductsWithoutLoad().subscribe((pro)=>{
       this.allProducts=pro;
     })
+    this.gty(this.p);
 
   }
 
@@ -63,5 +66,11 @@ uploadpreviewImge(event, productId) {
   // this.uploadImg.setValue(formDta)
 }
 
+gty(page:any){
+  this.productservices.getAllProducts(page).subscribe((res:any)=>{
+    this.allProducts = res.result.docs;
+    this.totalItems = res.totalDocs;
+  })
+}
 
 }

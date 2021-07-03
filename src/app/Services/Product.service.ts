@@ -143,4 +143,35 @@ export class ProductService {
         this.productsLoad.next([...this.products]);
       });
   }
+
+  getAllProducts(page:any) {
+    return this.http
+      .get<{ product: Product[] }>(`${this.api }/vendor?page= ${page}` )
+      .pipe(
+        map((pro: any) => {
+          return pro?.result?.docs.map((p: any) => {
+            return {
+              _id: p._id,
+              title: p.title,
+              color: p.color,
+              description: p.description,
+              price: p.price,
+              subcategoryId: p.subcategoryId,
+              vendor: p.vendorId,
+              sku: p.sku,
+              quantity: p.quantity,
+              size: p.size,
+              Weight: p.Weight,
+              photos: p.photos,
+              rating: p.rating,
+              discount: p.discount,
+              discountDate: p.discountDate,
+              brand: p.brand,
+              productSpecifications: p.productSpecifications,
+            };
+          });
+        })
+      )
+
+  }
 }

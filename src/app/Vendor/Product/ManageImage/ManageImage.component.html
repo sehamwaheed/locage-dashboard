@@ -1,4 +1,4 @@
-<nb-card accent="info" *ngFor="let productItem of allProducts; let pro=index">
+<nb-card accent="info" *ngFor="let productItem of allProducts | paginate: { itemsPerPage: 2, currentPage: p,totalItems:totalItems } ; let pro=index">
   <nb-card-header class="" >
      <div class="d-flex justify-content-between border-0 ">
      <div class="text-primary" style="font-size: large;"> {{productItem.title}}</div>
@@ -44,3 +44,4 @@
 
   </nb-card-body>
 </nb-card>
+<pagination-controls class="text-center" (pageChange)="gty((p = $event))" style="position:sticky;"></pagination-controls>
